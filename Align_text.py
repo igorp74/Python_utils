@@ -5,7 +5,7 @@
 👔 Igor Perković
 
 🚀 Created: 2021-10-05 23:05:21
-📅 Changed: 2022-01-23 19:20:14
+📅 Changed: 2022-04-01 00:05:29
 
 💡 Idea is to extend KDE Kate with simple align function.
 
