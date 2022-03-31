@@ -1,4 +1,3 @@
-#!/home/igorp/python_venv/data/bin/python
 # -*- coding: utf8 -*-
 
 """
@@ -6,7 +5,7 @@
 👔 Igor Perković
 
 🚀 Created: 2021-10-05 23:05:21
-📅 Changed:
+📅 Changed: 2022-01-23 19:20:14
 
 💡 Idea is to extend KDE Kate with simple align function.
 
@@ -20,89 +19,74 @@ USAGE:
 """
 
 import sys
+import numpy as np
+import pandas as pd
 
-def split_on_delimiter(dc, data_str, mode=0):
-    """
+def align_delimited_text(txt, mode=0):
+    if len(txt):
+        res = txt.split('\n')
+        delimiter = res[0]
 
-    ╒═════════════╤══════════════════════════════════════╤═════════╕
-    │   ARGUMENTS │ DESCRIPTION                          │ TYPE    │
-    ╞═════════════╪══════════════════════════════════════╪═════════╡
-    │          dc │ Delimiter Character(s)               │ string  │
-    │             │ Multiple delimiters should           │         │
-    │             │ be divided by pipe string '|'        │         │
-    ├─────────────┼──────────────────────────────────────┼─────────┤
-    │        data │ Selected text                        │ string  │
-    ├─────────────┼──────────────────────────────────────┼─────────┤
-    │        mode │ 0 = Do not erase non-splittable rows │ int     │
-    │             │ 1 = Erase all non-splittable rows    │         │
-    ╘═════════════╧══════════════════════════════════════╧═════════╛
+        acc = []
+        # NOTE 💡 The Idea here is to mark these rows who contains delimiter in a new column at first position [0]
+        # and then calculate max columns length on these rows where delimiter exists.
+        # ----------------------------------------------------------------------------------------------------------
+        for e,d in enumerate(res[1:]):
+            if delimiter in d:
+                dn = '1' + delimiter + d
+            else:
+                dn = '0' + delimiter + d
+            tmp = dn.split(delimiter)
+            acc.append(tmp)
 
-    """
+        df = pd.DataFrame(acc)
 
-    data = []
-    for r in data_str:
-        try:
-            data.append(r.split(dc,1))
-        except:
-            pass
+        # Filter splitted - to see in which row exists delimiter
+        dff = df[df[0]=='1']
 
-    cw          = 0
-    mcw         = 0
-    clean_data  = []
+        # After we choose the rows and subset of data for column width measurements,
+        # we may drop this column with indicator
+        #----------------------------------------------------------------------------
+        dff = dff.drop(dff.columns[[0]], axis=1)
+        df  = df.drop(df.columns[[0]], axis=1)
 
-    for row in data:
-        # If we have split, only then count max length
-        # otherwise, just ignore.
+        dfl = df.columns.tolist()
 
-        if mode == 0:
-            clean_data.append(row)
-        if len(row)>1:
-            if mode:
-                clean_data.append(row)
+        col_widths = np.vectorize(len)
+        cw = col_widths(dff.values.astype(str)).max(axis=0)
 
-            cw = len(row[0].strip())
-            if cw > mcw:
-                mcw = cw
+        cwl = []
+        for i in cw:
+            cwl.append(i)
 
-    col_width = mcw
+        for x,y in zip(dfl, cwl):
+            df[x]=df[x].str.ljust(y)
 
-    result = []
-    for row in clean_data:
-        if len(row) > 1:
-            before = row[0].strip().ljust(col_width)
-            after  = row[1].strip()
-            final  = f'{before} {dc} {after}'
-        else:
-            final = row[0]
-        result.append(final)
-    return result
+        df = df.replace(np.nan, '')
+        rowres = []
+        for v in df.values.tolist():
+            rowstr = ''
+            for e,i in enumerate(v):
+                if e:
+                    if len(i.strip()):
+                        if mode:
+                            rowstr = rowstr + f'{delimiter}' + i
+                        else:
+                            rowstr = rowstr + ' ' + i
+                else:
+                    if len(i.strip()):
+                        rowstr = rowstr + i
+            rowres.append(rowstr)
+
+        for t in rowres:
+            print(t)
 
 # Start. Check if we do have any selected text to process ?
 if len(sys.argv):
-
-    # Join all others arguments into one string
+    # Join all arguments into one string
     tmp = ' '.join(sys.argv[1:])
-    # then split them by \n
-    res = tmp.split('\n')
-
-    # If there is more than one character declared as delimiter,
-    # split them on pipe and loop through each of them
-
-    if '|' in res[0]:
-        dl = res[0].split('|')
-        for e,d in enumerate(dl):
-            if e==0:
-                txt = split_on_delimiter(d, res[1:])
-            else:
-                txt = split_on_delimiter(d, txt)
-
-    # Else, proces only single delimiter character
-    else:
-        txt = split_on_delimiter(res[0], res[1:])
-
-    # Finally print the result
-    for t in txt:
-        print(t)
-
-
-
+    try:
+        align_delimited_text(tmp)
+    except:
+        print(tmp)
+        print('Please check 1st line delimiter...')
