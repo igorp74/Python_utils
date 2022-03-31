@@ -1,4 +1,3 @@
-#!/home/igorp/python_venv/data/bin/python
 # -*- coding: utf8 -*-
 
 import sys
