@@ -1,4 +1,3 @@
-#!/home/igorp/python_venv/data/bin/python
 # -*- coding: utf8 -*-
 
 """
@@ -8,7 +7,7 @@ TEXT LINE ANALYSIS
 👔 Igor Perković
 
 🚀 Created: 2021-08-27 20:41:18
-📅 Changed:
+📅 Changed: 2022-04-01 00:06:34
 
 
 💡 IDEA: Analyse text lines and shows 3 categoriers:
@@ -37,6 +36,7 @@ if len(sys.argv):
     acc = []
     unique = []
     unique_of_duplicates = []
+    unique_without_duplicates = []
 
     for key, value in freq.items():
         acc.append(key)
@@ -45,7 +45,6 @@ if len(sys.argv):
         else:
             unique_of_duplicates.append(key)
 
-
     # Finaly join back to a string delimited with \n
     f_all = '\n'.join(acc)
     f_uni = '\n'.join(unique)
@@ -53,12 +52,12 @@ if len(sys.argv):
 
     # Print the final result
     print('⚙️ All unique lines')
-    print('------------------')
+    print('--------------------')
     print(f_all)
-    print('\n⛓️ Unique just from duplicate lines')
-    print('------------------------------------')
+    print('\n⚖ Only Duplicate lines')
+    print('--------------------------')
     print(f_uod)
-    print('\n📎 Pure Unique Lines')
-    print('---------------------')
+    print('\n👍 Only Pure Unique Lines')
+    print('----------------------------')
     print(f_uni)
 
