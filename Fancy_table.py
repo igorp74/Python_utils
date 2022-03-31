@@ -3,7 +3,7 @@
 👔 Igor Perković
 
 ⚙ CREATED: 2021-09-18 12:11:52
-📆 CHANGED:
+📆 CHANGED: 2022-04-01 00:13:57
 
 """
 
@@ -33,6 +33,7 @@ if len(sys.argv):
     for r in final:
         data.append(list(r.split('|')))
 
-    #print(tabulate(data,headers='firstrow',colalign=('right',),tablefmt='simple'))
-    print(tabulate(data,headers='firstrow',colalign=('right',),tablefmt='fancy_grid'))
-    #print(tabulate(data,headers='firstrow',colalign=('right',),tablefmt='psql'))
+    print(tabulate(data,headers='firstrow',colalign=('right',),tablefmt='plain'))
+    # print(tabulate(data,headers='firstrow',colalign=('right',),tablefmt='simple'))
+    # print(tabulate(data,headers='firstrow',colalign=('right',),tablefmt='fancy_grid'))
+    # print(tabulate(data,headers='firstrow',colalign=('right',),tablefmt='psql'))
