@@ -9,16 +9,28 @@ Python extensions for KDE Kate
 
 ## ⚙️ Settings
 
-Go to: **Settings → Configure Kate... → External Tools**<br>
-Add new Category: **Python Utils** and new tool: **Remove duplicate lines**<br>
-![screenshot_20210805-235901](https://user-images.githubusercontent.com/17882375/136116471-5fb364c2-c29a-4cef-9623-8fffed0a239d.png)
+Go to: **Settings → Configure Kate... → External Tools**<br><br>
+Add new Category: **Python Utils**<br><br>
+![Screenshot_20221009_115429](https://user-images.githubusercontent.com/17882375/200059159-b0d28f97-127c-4483-9e14-84ba8926b1bc.png)
+
 
 There are 2 ways for accomplish that goal:
-1. State **python** or **python_venv** path in Executable, then Python script and %{Document:Selection_Text} as arguments
-    This is universal (works on any platform) and it is on picture above.
-2. State python path in the script headers, make script executable, and then state just script will full path as executable and %{Document:Selection_Text} - for Linux environment
-![screenshot_20210805-235921](https://user-images.githubusercontent.com/17882375/136116510-8ceab7b9-9c52-46e3-b845-3cd5ca339db2.png)
+ <br><br>___A) Universal way (works on any platform) is on the picture below___.<br>
+|1.|Name|your script|
+|--:|--:|:--|
+|2.| **Executable**: |State `python` or `python_venv` path|
+|3.| **Arguments** are:| `<your python script name>`  `%{Document:Selection_Text}`|<br><br>
+
+<br><br>___B) Executable script (works on Linux)___.<br>
+|1.|Name|your script|
+|--:|--:|:--|
+|2.| **Executable**: |**Prerequisites**<br><li> State `python path` in the script header<br><li>make script executable<br><br>write just script name|
+|3.| **Arguments** are:|`%{Document:Selection_Text}`|<br><br>
+
+![Screenshot_20221009_115446](https://user-images.githubusercontent.com/17882375/200059197-36a37b10-7d4e-4c68-8b65-4fddca54608e.png)
+
 
 
 Finally, add keyboard shortcut for this tool.
-![screenshot_20210805-235949](https://user-images.githubusercontent.com/17882375/136116555-9b81b8e6-5b90-444b-99e0-858fdadb351b.png)
+![Screenshot_20221009_115528](https://user-images.githubusercontent.com/17882375/200059228-a0cd503f-3a88-4c64-8d50-0ea707149343.png)
+
